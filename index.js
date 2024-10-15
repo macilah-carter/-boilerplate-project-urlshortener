@@ -25,7 +25,7 @@ app.get('/api/hello', function(req, res) {
 });
 
 let db = []
-
+let idcounter = 1
 app.post('/api/shorturl', function(req, res) {
   const { url } = req.body
   try {
@@ -38,8 +38,9 @@ app.post('/api/shorturl', function(req, res) {
       if(err){
         return res.json({error: "invalid url"})
       }
-      db.push({original_url: url, short_url: 1})
-      return res.json({ original_url: url, short_url: 1})
+      const shorturl = idcounter++
+      db.push({original_url: url, short_url: shorturl})
+      return res.json({ original_url: url, short_url: shorturl})
     })
     
   } catch (error) {
@@ -50,7 +51,7 @@ app.post('/api/shorturl', function(req, res) {
 app.get('/api/shorturl/:id', (req, res) => {
   const params  = parseInt(req.params.id)
   try {
-    console.log(params)
+   
     const urlEntry = db.find(entry => entry.short_url === params);
     if(urlEntry){
       res.redirect(urlEntry.original_url)
