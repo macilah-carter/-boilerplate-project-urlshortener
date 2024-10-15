@@ -29,6 +29,9 @@ let db = []
 app.post('/api/shorturl', function(req, res) {
   const { url } = req.body
   try {
+    if(!url){
+      return res.json({error: "invalid url"})
+    }
     const parsedurl = new URL(url);
     const host = parsedurl.hostname
     dns.lookup(host, (err, address, family) => {
