@@ -48,8 +48,9 @@ app.post('/api/shorturl', function(req, res) {
 });
 
 app.get('/api/shorturl/:id', (req, res) => {
-  const { params } = parseInt(req.params)
+  const params  = parseInt(req.params.id)
   try {
+    console.log(params)
     const urlEntry = db.find(entry => entry.short_url === params);
     if(urlEntry){
       res.redirect(urlEntry.original_url)
